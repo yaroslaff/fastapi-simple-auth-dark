@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "fastapi-simple-auth-basic"
 # dynamic = ["version"]
 version = "0.0.1"
-description = 'FastAPI simple authentication (basic theme)'
+description = 'FastAPI simple authentication (basic DARK theme)'
 readme = "README.md"
 requires-python = ">=3.7"
 license = "MIT"
@@ -37,11 +37,11 @@ Issues = "https://github.com/yaroslaff/fastapi-simple-auth/issues"
 Source = "https://github.com/yaroslaff/fastapi-simple-auth"
 
 
-# [tool.hatch.version]
-# path = "fastapi_simple_auth/__init__.py"
+[tool.hatch.version]
+path = "fastapi_simple_auth_dark/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["fastapi_simple_auth_basic"]
+packages = ["fastapi_simple_auth_dark"]
 
 # packages = ["templates"]
 

@@ -1,4 +1,4 @@
-# default basic theme for fastapi-simple-auth
+# default DARK basic theme for fastapi-simple-auth
 
 ## How to create/use custom theme:
 
