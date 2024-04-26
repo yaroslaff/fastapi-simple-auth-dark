@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}qqq{% endblock %}</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="{{ rq.url_for("simpleauth-static", path="css/styles.css") }}">
 
   <!-- Add your custom styles here if needed -->
   <style>
@@ -15,7 +15,7 @@
   <!-- Add imports for Martel Sans, Gotam, and Cascadia Code if needed -->
 
   <script type="module" src="{{ rq.url_for("settings_view") }}"></script>
-  <script defer type="module" src="{{ rq.url_for("static", path="js/simpleauth.js") }}"></script>
+  <script defer type="module" src="{{ rq.url_for("simpleauth-static", path="js/simpleauth.js") }}"></script>
   {% block meta%}
   {% endblock %}
 </head>
