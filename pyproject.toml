@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "fastapi-simple-auth-basic"
+name = "fastapi-simple-auth-dark"
 # dynamic = ["version"]
 version = "0.0.1"
 description = 'FastAPI simple authentication (basic DARK theme)'
