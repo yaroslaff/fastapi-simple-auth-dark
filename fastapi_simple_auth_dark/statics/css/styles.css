@@ -1,8 +1,8 @@
 :root {
-  --primary: #375a7f; /* Main primary color */
   --background: #000; /* Background color */
   --background-footer: #222; /* Background color */
-  --text-color: #666; /* Text color */
+  --background-content: #222; /* Background color */
+  --text-color: #ccc; /* Text color */
 }
 
 body, html {
@@ -28,7 +28,7 @@ body {
     margin-top: 50px;
     padding: 20px;
     border-radius: 8px;
-    background-color: #333;
+    background-color: var(--background-content);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 

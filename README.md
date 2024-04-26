@@ -1,9 +1,8 @@
-# default DARK basic theme for fastapi-simple-auth
+# default DARK theme for fastapi-simple-auth
 
-## How to create/use custom theme:
+This is DARK theme for [fastapi-simple-auth](https://github.com/yaroslaff/fastapi-simple-auth), it's based on [fastapi-simple-auth-basic](https://github.com/yaroslaff/fastapi-simple-auth-basic) (see basic theme to learn how to create new themes).
 
-1. fork this repo to create your theme
-2. change content and `pyproject.toml`
-3. install your package in virtualenv with your app and [fastapi-simple-auth](https://github.com/yaroslaff/fastapi-simple-auth) with `pip3 install git+https://github.com/NAME/PACKAGE`) or install with `pip3 install -e PATH` as editable.
-3. set your theme name in `.env` file as `TEMPLATE_THEME=your_theme_package_name`
-
+Differences between basic theme and this repo:
+1. This `README.md` file
+2. package names in `pyproject.toml`
+3. variables at top of [fastapi_simple_auth_dark/statics/css/styles.css]
