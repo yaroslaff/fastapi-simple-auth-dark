@@ -135,7 +135,7 @@ function verify_btn_onclick(){
         switch(r.status){
             case 200:
                 var result = await r.json();
-                open_modal_ok("Login successful", function() { window.location.replace(result['url']); } );
+                open_modal_ok("Verification successful", function() { window.location.replace(result['url']); } );
                 break;
             case 400:
                 open_modal_close(await r.text());
