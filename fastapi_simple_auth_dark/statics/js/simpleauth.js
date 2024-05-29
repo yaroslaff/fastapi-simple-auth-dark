@@ -364,17 +364,18 @@ function reg_btn_onclick(){
     })
     .then(async r => {
         // console.log("FIN", r, response.status, response)
-        if(response.status != 200){
-            var text = await response.text() 
-            open_modal_close(text)
-        }else{
-            if(r.status == 'OK'){
-                console.log("redirect to", r.redirect);
+
+        switch(response.status){
+            case 200:
                 window.location = r.redirect;
-            }else{
-                console.log("status not OK:", r)
-            }
+                break;
+            case 400:
+                open_modal_close(r.detail);
+                break;
+            default:
+                open_modal_close("Something went wrong. Please try again later.")
         }
+
     })
     .catch(e => console.log("ERROR", e))
 }
@@ -393,7 +394,7 @@ function init_hooks(){
     for (let el_id in hooks) {
         var btn = document.getElementById(el_id);
         if(btn){
-            console.log("hook", el_id, btn)
+            // console.log("hook", el_id, btn)
             btn.onclick = hooks[el_id]
         }
     }
