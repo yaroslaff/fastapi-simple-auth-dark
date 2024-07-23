@@ -37,6 +37,12 @@
       </div>
     </div>
 
+  {% if settings.turnstile_sitekey %}
+    <div class="cf-turnstile" data-sitekey="{{settings.turnstile_sitekey}}"></div>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
+  {%endif %}
+
+
 
   {% if error %}
   <!-- Error Message -->

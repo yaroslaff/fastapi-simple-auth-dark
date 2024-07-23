@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "fastapi-simple-auth-dark"
-# dynamic = ["version"]
-version = "0.0.3"
+dynamic = ["version"]
+# version = "0.0.3"
 description = 'FastAPI simple authentication (basic DARK theme)'
 readme = "README.md"
 requires-python = ">=3.7"

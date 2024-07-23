@@ -6,8 +6,6 @@ const modal_btn = document.getElementById('myModal-btn')
 
 const settings = JSON.parse(sessionStorage.getItem("simpleAuthSettings"));
 
-
-
 function redirect(url){
     console.log(settings.base_url);
 
@@ -119,10 +117,13 @@ function verify_btn_onclick(){
 
     var code = document.getElementById('code').value;
 
+
     const payload = {
         'code': code,
+        'captcha_token': get_captcha_token(),
     }
 
+    /* POST /auth/emailverify/user@example.com */
     /* all checks passed */
     fetch(window.location.href, {
         method: "POST",    
@@ -138,7 +139,8 @@ function verify_btn_onclick(){
                 open_modal_ok("Verification successful", function() { window.location.replace(result['url']); } );
                 break;
             case 400:
-                open_modal_close(await r.text());
+                var result = await r.json();
+                open_modal_close(result['detail']);
                 break;
             default:
                 open_modal_close("System error (try reloading page): " + await r.text());
@@ -171,7 +173,8 @@ function recover_btn_onclick(){
 
     const payload = {
         'code': code,
-        'password': password
+        'password': password,
+        'captcha_token': get_captcha_token(),
     }
 
     fetch('', {
@@ -189,7 +192,8 @@ function recover_btn_onclick(){
                 open_modal_ok("Changed password, login now", function() { redirect('/login'); } );
                 break;
             case 400:
-                open_modal_close(await r.text());
+                var result = await r.json();
+                open_modal_close(result['detail']);
                 break;
             default:
                 open_modal_close("Something went wrong. Please try again later.")
@@ -211,7 +215,8 @@ function send_recover_btn_onclick(){
     }
 
     const payload = {
-        'email': username
+        'email': username,
+        'captcha_token': get_captcha_token(),
     }
     fetch('recover', {
         method: "POST",
@@ -244,8 +249,24 @@ function verify_resend_btn_onclick(){
 
     const btn = document.getElementById("fastapi-simple-auth-verify-resend-btn")
 
+    if(! get_captcha_token()){
+        open_modal_close("Please complete captcha")
+        return
+    }
+
+    var payload = {
+        'captcha_token': get_captcha_token()
+    }
+
+    console.log(payload);
+
+    /* POST /auth/emailverify_resend/user@example.com */
     fetch('/auth/emailverify_resend/' + email, {
         method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+          },
+        body: JSON.stringify(payload)
     })
     .then(async r => {
         console.log(r);
@@ -253,6 +274,10 @@ function verify_resend_btn_onclick(){
         switch(r.status){
             case 200:
                 open_modal_ok(await r.text());
+                break;
+            case 400:
+                var result = await r.json();
+                open_modal_close(result['detail']);
                 break;
             case 429:
                 open_modal_close("Code was sent recently, cannot resend now");
@@ -285,9 +310,15 @@ function verify_resend_btn_onclick(){
     const user_el = document.getElementById('username')
     const pass_el = document.getElementById('password')
 
+    if(!get_captcha_token()){
+        open_modal_close("Please complete captcha")
+        return
+    }
+
     const formData = new FormData();
     formData.append("username", user_el.value);
     formData.append("password", pass_el.value);
+    formData.append("captcha_token", get_captcha_token() );
 
     /* all checks passed */
     fetch('/auth/login', {
@@ -307,6 +338,7 @@ function verify_resend_btn_onclick(){
                 var result = await r.json();
                 open_modal_close(result.detail);
                 pass_el.value = "";
+                reset_captcha();
                 break;
             default:
                 open_modal_close("System error (try reloading page): " + await r.text());
@@ -316,6 +348,20 @@ function verify_resend_btn_onclick(){
     .catch(e => console.log("MYERROR", e))
 }
   
+
+function get_captcha_token(){
+    if(settings.turnstile_sitekey){
+        return turnstile.getResponse();
+    }else{
+        return null
+    }
+}
+
+function reset_captcha(){
+    if(settings.turnstile_sitekey){
+        turnstile.reset();
+    }
+}
 
 function reg_btn_onclick(){
     const username_el = document.getElementById('username') 
@@ -345,11 +391,13 @@ function reg_btn_onclick(){
         return
     }
 
-    const payload = {
+    var payload = {
         'username': username,
-        'password': pass1
+        'password': pass1,
+        'captcha_token': get_captcha_token(),
     }
 
+    /* POST /auth/users */
     /* all checks passed */
     fetch('/auth/users/', {
         method: "POST",    

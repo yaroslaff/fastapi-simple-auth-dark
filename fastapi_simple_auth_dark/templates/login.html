@@ -5,7 +5,7 @@
 {% block content %}
 
   <!-- Username and Password Fields -->
-  
+
   {% if settings.username_is_email %}
   <div class="field">
     <label class="label">Email</label>
@@ -29,6 +29,11 @@
       <input class="input" id="password" type="password" placeholder="Enter your password">
     </div>
   </div>
+
+  {% if settings.turnstile_sitekey %}
+    <div class="cf-turnstile" data-sitekey="{{settings.turnstile_sitekey}}"></div>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
+  {%endif %}
 
   {% if error %}
   <!-- Error Message -->
