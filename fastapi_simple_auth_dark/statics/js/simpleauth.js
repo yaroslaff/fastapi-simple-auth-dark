@@ -105,6 +105,13 @@ function open_modal_ok(msg, onclick = null){
     open_modal(msg, ['is-success'], 'OK', onclick);
 }
 
+function open_modal_redirect(msg, target, btn_text = 'Redirect'){
+    open_modal(msg, ['is-success'], btn_text, 
+        function() { window.location.replace(target)}
+    );
+}
+
+
 const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -193,6 +200,7 @@ function recover_btn_onclick(){
                 break;
             case 400:
                 var result = await r.json();
+                reset_captcha();
                 open_modal_close(result['detail']);
                 break;
             default:
@@ -230,7 +238,8 @@ function send_recover_btn_onclick(){
         console.log(r.status);
         switch(r.status){
             case 200:
-                open_modal_ok(await r.text());
+                let rj = await r.json()
+                open_modal_redirect(rj.msg, rj.redirect, 'Enter code');
                 break;
             case 429:
                 open_modal_close("Code was sent recently, cannot resend now");

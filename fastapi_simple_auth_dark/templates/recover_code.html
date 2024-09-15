@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Recover :: {{settings.app_title}}{% endblock %}
+{% block title %}Enter recover code :: {{settings.app_title}}{% endblock %}
 {% block header %}Recover account{% endblock %}
 
 {% block content %}
@@ -27,6 +27,11 @@
       <input class="input" id="password2" type="password" placeholder="confirmation">
     </div>
   </div>
+
+  {% if settings.turnstile_sitekey %}
+    <div class="cf-turnstile" data-sitekey="{{settings.turnstile_sitekey}}"></div>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
+  {%endif %}
 
 
   {% if error %}
